@@ -1,0 +1,24 @@
+'use strict'
+
+const Schema = use('Schema')
+/** Classe da model users com os campos id, name, username, email, password, location e aboutme  **/
+class UserSchema extends Schema {
+  up () {
+    this.create('users', table => {
+      table.increments()
+        table.string('name').notNullable()
+        table.string('username', 100).notNullable().unique()
+        table.string('email', 254).notNullable().unique()
+        table.string('password', 70).notNullable()
+        table.string('location').notNullable()
+        table.text('aboutme').notNullable()
+        table.timestamps()
+    })
+  }
+
+  down () {
+    this.drop('users')
+  }
+}
+
+module.exports = UserSchema
