@@ -31,8 +31,6 @@ Route.group(() => {
 
   Route.put('/editaccount', 'UserController.editAccount') 
 
-  Route.put('/changepasswd', 'UserController.changePasswd')
-
   Route.delete('/delete', 'UserController.deleteAccount') 
 
 })

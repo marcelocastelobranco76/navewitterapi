@@ -94,33 +94,7 @@
 	   }
 
 
-	  async changePasswd ({ request, auth, response }) { 
-		    /** Get logged in user **/
-		    const user = auth.current.user
-
-		    /** Verify if passwords match **/
-		    const verifyPassword = await Hash.verify(
-			request.input('password'),
-			user.password
-		    )
-
-		    /** Check password and show error message **/
-		    if (!verifyPassword) {
-			return response.status(400).json({
-			    status: 'error',
-			    message: 'Error trying to check current password. Try again later.'
-			})
-		    }
-
-		    /** Create a hash and save new password **/
-		    user.password = await Hash.make(request.input('newpassword'))
-		    await user.save()
-
-		    return response.json({
-			status: 'success',
-			message: 'Password updated!'
-		    })
-	  }
+	 
 
 	  async userProfile ({ request, params, response }) { 
 		    try {
