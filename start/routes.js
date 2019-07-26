@@ -75,7 +75,7 @@ Route.put('/publication/editcomment/:id', 'PublicationController.editCommentPubl
 
 Route.get('/publication/viewcomment/:id', 'PublicationController.viewCommentPublication').middleware(['auth:jwt'])
 
-Route.delete('/publication/deletecomment/:id', 'PublicationController.deletaComentarioPublicacao').middleware(['auth:jwt'])
+Route.delete('/publication/deletecomment/:id', 'PublicationController.deleteCommentPublication').middleware(['auth:jwt'])
 
 
 /** Routes for users to Create, Edit, View, and Delete Comments on Other Users Publications **/

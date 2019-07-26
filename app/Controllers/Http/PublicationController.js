@@ -3,38 +3,39 @@
 	const Comment = use('App/Models/Comment')
 
 	class PublicationController {
-				async cadastraPublicacao ({ request, auth, response }) { /** Método para cadastrar uma publicação **/
-				    /** Pega o usuário logado **/
+
+				async createPublication ({ request, auth, response }) { 
+				    /** Get loggged in user **/
 				    const user = auth.current.user
 
-				    /** Salva a publicação na base de dados **/
+				    /** Save publication in database **/
 				    const publication = await Publication.create({
 					user_id: user.id,
 					publication: request.input('publication')
 				    })
 
-				    /** Carrega os relacionamentos da publicação **/
+				    /** Load all relationships schemas **/
 				    await publication.loadMany(['user','comments'])
 
 				    return response.json({
 					status: 'success',
-					message: 'Publicação cadastrada com sucesso!',
+					message: 'Publication registered!',
 					data: publication
 				    })
 				}
 				
-				async atualizaPublicacao ({ request, params, auth, response }) { /** Método atualiza conta - para testar deve-se informar o token gerado quando o usuário se loga **/
+				async editPublication ({ request, params, auth, response }) { 
 				    try {
-					/** Pega o usuário que está logado **/
+					/** Get logged in user **/
 					const user = auth.current.user
 
-					/**Busca a publicação de acordo com o ID do usuário logado **/
+					/**Fetch publication accordly with logged in user ID **/
 					    const publication = await Publication.query()
 					      .where('user_id', user.id)
 					      .where('id', params.id)
 					      .firstOrFail()
 
-					/** Atualiza com as novas informações **/
+					/** Update with new information **/
 					
 					publication.publication = request.input('publication')
 					
@@ -42,19 +43,19 @@
 
 					return response.json({
 					    status: 'success',
-					    message: 'Publicação atualizada com sucesso!',
+					    message: 'Publication updated!',
 					    data: user
 					})
 				    } catch (error) {
 					return response.status(400).json({
 					    status: 'error',
-					    message: 'Erro ao atualizar a publicação. Tente novamente.'
+					    message: 'Error trying to update publication. Try again later.'
 					})
 				    }
 			   }
 
-				async mostraPublicacao ({ request, params, auth, response }) { /** Método para mostrar publicação **/
-					/** Pega o usuário que está logado **/
+				async viewPublication ({ request, params, auth, response }) { 
+					/**Get logged in user **/
 					const user = auth.current.user
 
 				    try {
@@ -73,16 +74,16 @@
 				    } catch (error) {
 					return response.status(404).json({
 					    status: 'error',
-					    message: 'Publicação não encontrada.'
+					    message: 'Publication not found.'
 					})
 				    }
 				}
 
-				async deletaPublicacao ({ request, auth, params, response }) {
-					    /** Obtém usuário atualmente autenticado **/
+				async deletePublication ({ request, auth, params, response }) {
+					    /** Get current authenticated user **/
 					    const user = auth.current.user
 
-					    /** Obtem a publicação de acordo com o ID especificado **/
+					    /** Get publication accordly ID passed as params **/
 					    const publication = await Publication.query()
 					      .where('user_id', user.id)
 					      .where('id', params.id)
@@ -92,55 +93,55 @@
 
 					    return response.json({
 					      status: 'success',
-					      message: 'Publicação deletada!',
+					      message: 'Publication deleted!',
 					      data: null
 					    })
 				}
 
-				async criaComentarioPublicacao ({ request, auth, params, response }) { /** Método para o próprio usuário logado criar comentário em suas publicações **/
-					    /** Obtém usuário atualmente autenticado **/
+				async createCommentPublication ({ request, auth, params, response }) { /** Method for authenticated user to comment on their own publication **/
+					    /** Get current authenticated user **/
 					    const user = auth.current.user
 
-					    /** Obtém a publicação com o ID especificado  **/
+					    /** Get publication accordly with ID passed as params  **/
 					    const publication = await Publication.find(params.id)
 
-					    /** Persiste na base de dados **/
+					    /** Persist in database **/
 					    const comment = await Comment.create({
 						user_id: user.id,
 						publication_id: publication.id,
 						comment: request.input('comment')
 					    })
 
-					    /** Carrega o usuário que fez o comentário **/
+					    /** Load authenticated user data **/
 					    await comment.load('user')
 
 					    return response.json({
 						status: 'success',
-						message: 'Comentário cadastrado com sucesso!',
+						message: 'Comment registered!',
 						data: comment
 					    })
 				}
 
-				async editaComentarioPublicacao ({ request, auth, params, response }) { /** Método para o próprio usuário logado criar comentário em suas publicações **/
+				async editCommentPublication ({ request, auth, params, response }) { /** Method for authenticated user to edit their own comment on their own publication **/
 
 						try {
-						/** Obtém o usuário que está logado **/
+						/** Get logged in user**/
 						const user = auth.current.user
 						
-						/** Busca o ID da publicação conforme o ID do comentário e o ID do usuário logado **/			
+					/** Fetch publication ID accordly with user ID and comment ID passed as params **/			
 						const publication = await Publication.query()
 						      .where('user_id', user.id)
 						      .where('id', params.id)
 						      .firstOrFail()
 						
-						/**Busca o comentário de acordo com o ID do usuário logado e o ID da publicação  **/
+						/**Fetch comment accordly with user ID, comment ID passed as params and publication ID  **/
 						    const comment = await Comment.query()
 						      .where('user_id', user.id)
 						      .where('publication_id',publication.id)
 						      .where('id', params.id)
 						      .firstOrFail()
 
-						/** Atualiza com as novas informações **/
+						/** Update with new information **/
 						
 						comment.comment = request.input('comment')
 						
@@ -148,32 +149,32 @@
 						await comment.load('user')
 						return response.json({
 						    status: 'success',
-						    message: 'Comentário atualizado com sucesso!',
+						    message: 'Comment updated!',
 						    data: comment
 						})
 					    } catch (error) {
 
 						return response.status(400).json({
 						    status: 'error',
-						    message: 'Erro ao atualizar o comentário. Tente novamente.',
+						    message: 'Error trying to update comment. Try again later.',
 						    data: comment
 						})
 					    }
 			      
 	            }
 
-				async visualizaComentarioPublicacao ({ request, params, auth, response }) { /** Método para mostrar publicação **/
+				async viewCommentPublication({ request, params, auth, response }) { /** Method for user see their own comment **/
 
 					try {
-						/** Obtém o usuário que está logado **/
+						/** Get logged in user **/
 						const user = auth.current.user
-						/** Busca o ID da publicação conforme o ID do comentário e o ID do usuário logado **/			
+				/** Fetch publication ID accordly user ID and ID passed as params **/			
 							const publication = await Publication.query()
 							      .where('user_id', user.id)
 							      .where('id', params.id)
 							      .firstOrFail()
 							
-						/**Busca o comentário de acordo com o ID do usuário logado e o ID da publicação  **/
+						/**Fetch comment accordly with user ID, comment ID passed as params and publication ID  **/
 							    const comment = await Comment.query()
 							      .where('user_id', user.id)
 							      .where('publication_id',publication.id)
@@ -186,22 +187,23 @@
 				    } catch (error) {
 						return response.status(404).json({
 						    status: 'error',
-						    message: 'Comentário não encontrado.'
+						    message: 'Comment not found.'
 						})
 				    }
 				}
 
-				async deletaComentarioPublicacao ({ request, auth, params, response }) {
+				async deleteCommentPublication ({ request, auth, params, response }) {
 					    try {
-							/** Obtém o usuário que está logado **/
+							/** Get logge in user **/
 							const user = auth.current.user
-							/** Busca o ID da publicação conforme o ID do comentário e o ID do usuário logado **/			
+
+					/** Fetch publication ID accordly user ID and ID passed as params **/			
 								const publication = await Publication.query()
 								      .where('user_id', user.id)
 								      .where('id', params.id)
 								      .firstOrFail()
 								
-							/**Busca o comentário de acordo com o ID do usuário logado e o ID da publicação  **/
+							/**Fetch comment accordly with user ID, comment ID passed as params and publication ID  **/
 								    const comment = await Comment.query()
 								      .where('user_id', user.id)
 								      .where('publication_id',publication.id)
@@ -217,7 +219,7 @@
 				    	} catch (error) {
 								return response.status(404).json({
 						    status: 'error',
-						    message: 'Comentário não encontrado.'
+						    message: 'Comment not found.'
 						   })
 				    	}
 				}
