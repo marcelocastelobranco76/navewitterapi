@@ -1,13 +1,26 @@
 	'use strict'
-	/** Const User utilizando a model User **/
+	
 	const User = use('App/Models/User')
 
-	const Hash = use('Hash') /** Utilizando o helper Hash **/
+	const Database = use('Database') /** Using Query Builder **/
+
+	const Hash = use('Hash') /** Using Hash helper **/
 
 	const Publication = use('App/Models/Publication')
 
 	class UserController {
-
+		
+		   /**
+	   * Method for user sign up
+	   *
+	   * @method signUp
+	   *
+	   * @param  {Object} request
+	   * @param  {Object} auth
+	   * @param  {Object} response
+	   *
+	   * @return {JSON}
+	   */
 	    async signUp ({ request, auth, response }) { 
 	    
 		    const userData = request.only(['name', 'username', 'email', 'password', 'location', 'aboutme'])
@@ -31,6 +44,17 @@
 			})
 		    }
 	   }
+	/**
+	   * User authentication
+	   *
+	   * @method logIn
+	   *
+	   * @param  {Object} request
+	   * @param  {Object} auth
+	   * @param  {Object} response
+	   *
+	   * @return {String|JSON}
+	   */
 	   async logIn ({ request, auth, response }) { 
 		    try {
 			/** Check email and password and create a JWT token - this token will be used in all the methods that involves publications and comments **/
@@ -50,7 +74,16 @@
 			})
 		    }
 	   }
-
+	/**
+	   * Get details of current authenticated user's account
+	   *
+	   * @method userAccount
+	   *
+	   * @param  {Object} auth
+	   * @param  {Object} response
+	   *
+	   * @return {JSON}
+	   */
 	   async userAccount ({ auth, response }) { 
 		    const user = await User.query()
 			.where('id', auth.current.user.id)
@@ -66,6 +99,17 @@
 			data: user
 		    })
 	   }
+	/**
+	   * Update current authenticated user's account
+	   *
+	   * @method editAccount
+	   *
+	   * @param  {Object} request
+	   * @param  {Object} auth
+	   * @param  {Object} response
+	   *
+	   * @return {JSON}
+	   */
 	   async editAccount ({ request, auth, response }) { 
 		    try {
 				/** Get logged in user **/
@@ -92,10 +136,46 @@
 				})
 		    }
 	   }
-
-
+/**
+	   * Delete current authenticated user's account
+	   *
+	   * @method deleteAccount
+	   *
+	   * @param  {Object} request
+	   * @param  {Object} auth
+	   * @param  {Object} response
+	   *
+	   * @return {JSON}
+	   */
+	 async deleteAccount ({ request, auth, response }) { 
+			    try {
+				/** Get logged in user **/
+				const user = auth.current.user
+		 		await user.delete()
+				return response.json({
+				    status: 'success',
+				    message: 'Account deleted',
+				    data: user
+				})
+			    } catch (error) {
+				return response.status(400).json({
+				    status: 'error',
+				    message: 'Erro trying to delete account.Try again later.'
+				})
+			    }
+		   }
 	 
-
+	/**
+	   * Show user profile passing only the username
+	   *
+	   * @method userProfile
+	   *
+	   * @param  {Object} request
+	   * @param  {Object} params
+	   * @param  {Object} response
+	   *
+	   * @return {JSON}
+	   */
 	  async userProfile ({ request, params, response }) { 
 		    try {
 			const user = await User.query()
@@ -118,60 +198,30 @@
 		    }
 	   
 	  }
-	  async timeline ({ request, auth, response }) { 
-	      
+		/**
+   * Fetch user and other users publications
+   *
+   * @method index
+   * @param  {Object} auth
+   * @param  {Object} response
+   *
+   * @return {JSON}
+   */
+	  async timeline ({ auth, response }) {
+		   
+		const userID = auth.current.user.id 		 
+		const publications = await Database.raw('select publication,created_at from publications where user_id in (select id from users where id <> "userID" or id = "userID") order by created_at desc')
 
-		try {
-
-		    const user = await User.find(auth.current.user.id)
-
-		    /** Get an array with ID of all users **/
-		    const usersIds = await User.query().whereNot('id',user.id)
 		
-
-		    /** Add logged in user ID in the array with all others IDs **/
-		    usersIds.push(user.id)
-
-		    const publications = await Publication.query()
-			.whereIn('user_id', usersIds)
-			.with('user')
-			.with('comments')
-			.orderBy('created_at','desc')
-			.fetch()
-
 		    return response.json({
 			status: 'success',
-			data: publications
+			data: publications[0]
 		    })
-
-		} catch (error) {
-			return response.status(400).json({
-			    status: 'error',
-			    message: 'Erro trying to show timeline.Try again later.'
-				
-			})
-		    }
-	  }
-
-
-	   async deleteAccount ({ request, auth, response }) { 
-		    try {
-			/** Get logged in user **/
-			const user = auth.current.user
-	 		await user.delete()
-			return response.json({
-			    status: 'success',
-			    message: 'Account deleted',
-			    data: user
-			})
-		    } catch (error) {
-			return response.status(400).json({
-			    status: 'error',
-			    message: 'Erro trying to delete account.Try again later.'
-			})
-		    }
-	   }
-
 	}
+
+
+	  
+
+}
 
 	module.exports = UserController

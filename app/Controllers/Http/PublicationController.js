@@ -4,6 +4,18 @@
 
 	class PublicationController {
 
+			/**
+			   * Create a publication
+			   *
+			   * @method createPublication
+			   *
+			   * @param  {Object} request
+			   * @param  {Object} auth
+			   * @param  {Object} response
+			   *
+			   * @return {JSON}
+			   */
+
 				async createPublication ({ request, auth, response }) { 
 				    /** Get loggged in user **/
 				    const user = auth.current.user
@@ -23,7 +35,18 @@
 					data: publication
 				    })
 				}
-				
+				/**
+				   * Update a publication
+				   *
+				   * @method editPublication
+				   *
+				   * @param  {Object} request
+				   * @param  {Object} auth
+				   * @param  {Object} params
+				   * @param  {Object} response
+				   *
+				   * @return {JSON}
+				   */
 				async editPublication ({ request, params, auth, response }) { 
 				    try {
 					/** Get logged in user **/
@@ -54,6 +77,18 @@
 				    }
 			   }
 
+			  /**
+			   * Fetch a publication
+			   *
+			   * @method viewPublication
+			   *
+			   * @param  {Object} request 
+			   * @param  {Object} params
+			   * @param  {Object} auth
+			   * @param  {Object} response
+		           *
+			   * @return {JSON}
+			   */
 				async viewPublication ({ request, params, auth, response }) { 
 					/**Get logged in user **/
 					const user = auth.current.user
@@ -79,6 +114,19 @@
 				    }
 				}
 
+				 /**
+				   * Delete a publication
+				   *
+				   * @method deletePublication
+				   *
+				   * @param  {Object} request
+				   * @param  {Object} auth
+				   * @param  {Object} params
+				   * @param  {Object} response
+				   *
+				   * @return {NULL}
+				   */	
+
 				async deletePublication ({ request, auth, params, response }) {
 					    /** Get current authenticated user **/
 					    const user = auth.current.user
@@ -97,8 +145,21 @@
 					      data: null
 					    })
 				}
+				/**
+				   * Authenticated user comments on his own post 
+				   *
+				   * @method createCommentPublication
+				   *
+				   * @param  {Object} request
+				   * @param  {Object} auth
+				   * @param  {Object} params
+				   * @param  {Object} response
+				   *
+				   * @return {JSON}
+				   */	
 
-				async createCommentPublication ({ request, auth, params, response }) { /** Method for authenticated user to comment on their own publication **/
+
+				async createCommentPublication ({ request, auth, params, response }) { /** Authenticated user comments on his own post **/
 					    /** Get current authenticated user **/
 					    const user = auth.current.user
 
@@ -121,9 +182,20 @@
 						data: comment
 					    })
 				}
+				/**
+				   * Authenticated user updates his own comment on his own publication 
+				   *
+				   * @method editCommentPublication
+				   *
+				   * @param  {Object} request
+				   * @param  {Object} auth
+				   * @param  {Object} params
+				   * @param  {Object} response
+				   *
+				   * @return {JSON}
+				   */	
 
-				async editCommentPublication ({ request, auth, params, response }) { /** Method for authenticated user to edit their own comment on their own publication **/
-
+				async editCommentPublication ({ request, auth, params, response }) { 
 						try {
 						/** Get logged in user**/
 						const user = auth.current.user
@@ -162,8 +234,20 @@
 					    }
 			      
 	            }
+				/**
+				   * Authenticated user views his own comment on his own publication 
+				   *
+				   * @method viewCommentPublication
+				   *
+				   * @param  {Object} request
+				   * @param  {Object} auth
+				   * @param  {Object} params
+				   * @param  {Object} response
+				   *
+				   * @return {JSON}
+				   */
 
-				async viewCommentPublication({ request, params, auth, response }) { /** Method for user see their own comment **/
+				async viewCommentPublication({ request, params, auth, response }) { 
 
 					try {
 						/** Get logged in user **/
@@ -192,6 +276,18 @@
 				    }
 				}
 
+				/**
+				   * Authenticated user deletes his own comment on his own publication 
+				   *
+				   * @method deleteCommentPublication
+				   *
+				   * @param  {Object} request
+				   * @param  {Object} auth
+				   * @param  {Object} params
+				   * @param  {Object} response
+				   *
+				   * @return {NULL}
+				   */
 				async deleteCommentPublication ({ request, auth, params, response }) {
 					    try {
 							/** Get logge in user **/
@@ -213,7 +309,7 @@
 
 						   return response.json({
 						      status: 'success',
-						      message: 'Comentário deletado!',
+						      message: 'Comment deleted!',
 						      data: null
 						    })
 				    	} catch (error) {
@@ -223,6 +319,18 @@
 						   })
 				    	}
 				}
+				/**
+				   * Authenticated user comments on other user publication 
+				   *
+				   * @method userRegisterPublicationComment
+				   *
+				   * @param  {Object} request
+				   * @param  {Object} auth
+				   * @param  {Object} params
+				   * @param  {Object} response
+				   *
+				   * @return {JSON}
+				   */
 
 				async userRegisterPublicationComment ({ request, auth, params, response }) { /** Method for a logged in user to comment on other users' publications **/
 
@@ -266,6 +374,18 @@
 					    }
 			      
 			    }
+				/**
+				   * Authenticated user updates his comment on other user publication 
+				   *
+				   * @method userEditPublicationComment
+				   *
+				   * @param  {Object} request
+				   * @param  {Object} auth
+				   * @param  {Object} params
+				   * @param  {Object} response
+				   *
+				   * @return {JSON}
+				   */
 
 				async userEditPublicationComment ({ request, auth, params, response }) { /** Method for a logged in user to edit comment on other users' publications **/
 
@@ -308,8 +428,20 @@
 					    }
 			      
 			    }
+				/**
+				   * Authenticated user views his comment on other user publication 
+				   *
+				   * @method userEditPublicationComment
+				   *
+				   * @param  {Object} request
+				   * @param  {Object} auth
+				   * @param  {Object} params
+				   * @param  {Object} response
+				   *
+				   * @return {JSON}
+				   */
 
-			    async userViewPublicationComment ({ request, params, auth, response }) { /** Method for logged in user to view their comments on publications from other users **/
+			    async userViewPublicationComment ({ request, params, auth, response }) { 
 
 					    try {
 							/** Get logged in user **/
@@ -339,6 +471,19 @@
 								})
 				    }
 				}
+
+				/**
+				   * Authenticated user deletes his comment on other user publication 
+				   *
+				   * @method userDeletePublicationComment
+				   *
+				   * @param  {Object} request
+				   * @param  {Object} auth
+				   * @param  {Object} params
+				   * @param  {Object} response
+				   *
+				   * @return {NULL}
+				   */
 		        async userDeletePublicationComment ({ request, auth, params, response }) {
 					    try {
 							/** Get logged in user **/
