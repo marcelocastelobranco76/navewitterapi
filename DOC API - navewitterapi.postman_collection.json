@@ -1,0 +1,889 @@
+{
+	"info": {
+		"_postman_id": "bfcef82f-8841-4345-95e6-14bfa3b1b247",
+		"name": "DOC API - navewitterapi",
+		"description": "# Apresentação\n\nDocumentação para utilização da DOC API - navewitterapi\n\n# Autenticação\n\nÉ preciso o usuário fazer autenticação para fazer requisições a esta API. Login e cadastro não é necessário autenticação\n\n# Error Codes\n\n**400 – Bad Request**\n\nDados enviados de forma incorreta ou fora do padrão\n\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "CADASTRAR USUÁRIOS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"MARCELO\",\n    \"username\": \"mrcb76\",\n    \"email\": \"marcelorcastelobranco@gmail.com\",\n    \"passsword\": \"123456\",\n    \"location\": \"PELOTAS\",\n    \"aboutme\": \"TESTE1\"\n}"
+						},
+						"url": {
+							"raw": "192.168.33.10/signup",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"signup"
+							]
+						},
+						"description": "Cadastra um novo usuário no sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN DO USUÁRIO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"marcelorcastelobranco@gmail.com\",\n    \"password\": \"123456\"\n  \n}"
+						},
+						"url": {
+							"raw": "192.168.33.10/login?email=marcelorcastelobranco@gmail.com&password=123456",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "marcelorcastelobranco@gmail.com"
+								},
+								{
+									"key": "password",
+									"value": "123456"
+								}
+							]
+						},
+						"description": "Login de usuário no sistema.\n\nQuando um usuário envia seu e-mail e sua senha é gerado um token (autenticação JWT). Este token será necessário para que o usuário possa realizar as funções abaixo:\n\n    .criar, excluir, editar e visualizar sua conta.\n   \n    .criar, excluir, editar e visualizar suas publicações.\n   \n     .criar, excluir, editar e visualizar comentários em suas publicações.\n   \n     .criar, excluir, editar e visualizar seus comentários em publicações de outros usuários.\n    \n    .visualizar a listagem de todas as publicações de todos usuários, ordenadas por data.\n\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO VISUALIZA SUA CONTA",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU2NDA4OTEyOH0.kMKXr3g2p56YEuC-vUss9wmUF7qEmk4Y-tLOFf9EVD8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/account/myaccount",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"account",
+								"myaccount"
+							]
+						},
+						"description": "Esta requisição é responsável por permitir ao Usuário visualizar os dados da sua própria conta (myaccount)."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO EDITA SUA CONTA",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"MARCELO RODRIGUES CASTELO BRANCO\",\n    \"username\": \"marcelo76\",\n    \"email\": \"marcelorcastelobranco@gmail.com\",\n    \"location\": \"PELOTAS RIO GRANDE DO SUL\",\n    \"aboutme\": \"TESTE1 EDITADO\"\n}"
+						},
+						"url": {
+							"raw": "192.168.33.10/account/editaccount",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"account",
+								"editaccount"
+							]
+						},
+						"description": "Esta requisição é responsável por permitir ao Usuário editar os dados da sua própria conta (editaccount)."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO DELETA SUA CONTA",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/account/delete",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"account",
+								"delete"
+							]
+						},
+						"description": "Esta requisição permite ao Usuário deletar sua própria conta (delete)"
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO VISUALIZA A TIMELINE DE TODOS OS USUÁRIOS",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/users/timeline",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"users",
+								"timeline"
+							]
+						},
+						"description": "Esta requisição é responsável por permitir ao Usuário visualizar a timeline de todos os usuário do sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "VISUALIZAR PROFILE DO USUÁRIO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/:username",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "mrcb76",
+									"description": "username de qualquer usuário"
+								}
+							]
+						},
+						"description": "Esta requisição é responsável por permitir a qualquer pessoa visualizar o profile de qualquer usuário apenas informando o username."
+					},
+					"response": []
+				}
+			],
+			"description": "Esta pasta representa um objeto do tipo User na DOC API - navewitterapi",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3c037a2a-f6a0-4412-87ed-b621c0a96310",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f6b14fe2-6b64-4d54-9b29-79fa9418c558",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Publication",
+			"item": [
+				{
+					"name": "USUÁRIO CRIA PUBLICAÇÃO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"publication\": \"MINHA PRIMEIRA PUBLICAÇÃO\"\n}"
+						},
+						"url": {
+							"raw": "192.168.33.10/publication/create",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"publication",
+								"create"
+							]
+						},
+						"description": "Esta requisição permite o Usuário criar uma publicação. O Usuário deve estar autenticado para realizar esta operação."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO EDITA PUBLICAÇÃO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/publication/edit/:id?publication=MINHA PRIMEIRA PUBLICAÇÃO - EDITADA",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"publication",
+								"edit",
+								":id"
+							],
+							"query": [
+								{
+									"key": "publication",
+									"value": "MINHA PRIMEIRA PUBLICAÇÃO - EDITADA",
+									"description": "Novo texto da publicação"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador da publicação cadastrada"
+								}
+							]
+						},
+						"description": "Esta requisição permite ao Usuário editar sua própria Publicação. Para realizar esta operação o Usuário deve estar autenticado, informar o ID da publicação e informar o novo texto da publicação."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO VISUALIZA PUBLICAÇÃO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/publication/view/:id",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"publication",
+								"view",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador da publicação cadastrada"
+								}
+							]
+						},
+						"description": "Esta requisição permite ao Usuário visualizar suas própras publicações. Para isto, deve estar autenticado e informar o ID da publicação que deseja visualizar."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO EXCLUI PUBLICAÇÃO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/publication/delete/:id",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"publication",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador da publicação cadastrada"
+								}
+							]
+						},
+						"description": "Esta requisição permite ao Usuário excluir sua própria publicação. Para isto, o Usuário deve estar autenticado e passar o ID da publicação que deseja excluir."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO COMENTA SUA PRÓPRIA PUBLICAÇÃO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/publication/createcomment/:id?comment=COMENTÁRIO DA MINHA PRIMEIRA PUBLICAÇÃO",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"publication",
+								"createcomment",
+								":id"
+							],
+							"query": [
+								{
+									"key": "comment",
+									"value": "COMENTÁRIO DA MINHA PRIMEIRA PUBLICAÇÃO",
+									"description": "Texto do comentário da publicação"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador da publicação cadastrada"
+								}
+							]
+						},
+						"description": "Esta requisição permite ao Usuário comentar sua própria publicação. Para isto, o Usuário deve estar autenticado e deve informar o ID da publicação que deseja comentar."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO EDITA SEU PRÓPRIO COMENTÁRIO DE SUA PRÓPRIA PUBLICAÇÃO",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/publication/editcomment/:id?comment=COMENTÁRIO EDITADO",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"publication",
+								"editcomment",
+								":id"
+							],
+							"query": [
+								{
+									"key": "comment",
+									"value": "COMENTÁRIO EDITADO",
+									"description": "Novo texto do comentário"
+								}
+							],
+							"variable": [
+								{
+									"description": "Identificador do comentário da publicação que pertence ao usuário",
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Esta requisição permite ao Usuário comentar sua própria publicação. "
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO VISUALIZA SEU PRÓPRIO COMENTÁRIO EM SUA PRÓPRIA PUBLICAÇÃO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/publication/viewcomment/:id",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"publication",
+								"viewcomment",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador do comentário da publicação do usuário"
+								}
+							]
+						},
+						"description": "Esta requisição permite ao Usuário visualizar seu próprio comentário em sua própria publicação. Para isto, o Usuário deve estar autenticado e informar o ID do comentário."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO EXCLUI SEU COMENTÁRIO EM SUA PUBLICAÇÃO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/publication/deletecomment/:id",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"publication",
+								"deletecomment",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador do comentário"
+								}
+							]
+						},
+						"description": "Esta requisição permite ao Usuário excluir seu próprio comentário da sua própria publicação."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO COMENTA PUBLICAÇÃO DE OUTRO USUÁRIO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/user/register/publicationcomment/:id?comment=COMENTÁRIO DO USUÁRIO A NA PUBLICAÇÃO DO USUÁRIO B",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"user",
+								"register",
+								"publicationcomment",
+								":id"
+							],
+							"query": [
+								{
+									"key": "comment",
+									"value": "COMENTÁRIO DO USUÁRIO A NA PUBLICAÇÃO DO USUÁRIO B",
+									"description": "Texto do comentário"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador da publicação do usuário a qual o usuário autenticado comentará"
+								}
+							]
+						},
+						"description": "Esta requisição permite ao Usuário comentar na publicação de outro usuário."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO EDITA COMENTÁRIO NA PUBLICAÇÃO DE OUTRO USUÁRIO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/user/edit/publicationcomment/:id?comment=COMENTÁRIO EDITADO DO USUÁRIOA NA PUBLICAÇÃO DO USUÁRIOB",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"user",
+								"edit",
+								"publicationcomment",
+								":id"
+							],
+							"query": [
+								{
+									"key": "comment",
+									"value": "COMENTÁRIO EDITADO DO USUÁRIOA NA PUBLICAÇÃO DO USUÁRIOB",
+									"description": "Texto do comentário"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador da publicação da qual o usuário autenticado irá editar o comentário."
+								}
+							]
+						},
+						"description": "Esta resquisição permite ao Usuário editar seu próprio comentário na publicação de outro usuário."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO VISUALIZA SEU COMENTÁRIO NA PUBLICAÇÃO DE OUTRO USUÁRIO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/user/view/publicationcomment/:id",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"user",
+								"view",
+								"publicationcomment",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador da publicação da qual o usuário autenticado deseja visualizar o comentário que cadastrou."
+								}
+							]
+						},
+						"description": "Esta requisição permite ao usuário autenticado visualizar seu comentário na publicação de outro usuário."
+					},
+					"response": []
+				},
+				{
+					"name": "USUÁRIO EXCLUI SEU COMENTÁRIO NA PUBLICAÇÃO DE OUTRO USUÁRIO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU2NDE3ODY1Mn0.WF-BZeYB3OFshusOyLcQG-LiUfb7aa38sZLm_bNzrn4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.33.10/user/delete/publicationcomment/:id",
+							"host": [
+								"192",
+								"168",
+								"33",
+								"10"
+							],
+							"path": [
+								"user",
+								"delete",
+								"publicationcomment",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador do comentário o qual o usuário autenticado deseja excuir."
+								}
+							]
+						},
+						"description": "Esta requisição permite ao usuário autenticado excluir seu comentário na publicação de outro usuário."
+					},
+					"response": []
+				}
+			],
+			"description": "Esta pasta representa um objeto do tipo Publication que pertence a um usuário do sistema.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6dea1a2b-7869-45c2-a285-b455049bd1ca",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "8314198e-df48-4631-9351-a8537ef2913a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
