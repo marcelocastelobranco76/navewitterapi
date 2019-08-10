@@ -29,12 +29,8 @@
 			/** Register user in database **/
 			const user = await User.create(userData)
 
-			/** Generate a token to the user **/
-			const token = await auth.generate(user)
-
 			return response.json({
 			    status: 'success',
-			    data: token,
 			    message: 'You are registered!'
 			})
 		    } catch (error) {
@@ -74,6 +70,8 @@
 			})
 		    }
 	   }
+
+	
 	/**
 	   * Get details of current authenticated user's account
 	   *
@@ -85,8 +83,10 @@
 	   * @return {JSON}
 	   */
 	   async userAccount ({ auth, response }) { 
+
+		    const userID = auth.current.user.id
 		    const user = await User.query()
-			.where('id', auth.current.user.id)
+			.where('id', userID)
 			.with('publications', builder => {
 			    builder.with('user')
 			    builder.with('comments')

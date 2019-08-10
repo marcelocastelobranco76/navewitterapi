@@ -200,17 +200,11 @@
 						/** Get logged in user**/
 						const user = auth.current.user
 						
-					/** Fetch publication ID accordly with user ID and comment ID passed as params **/			
-						const publication = await Publication.query()
-						      .where('user_id', user.id)
-						      .where('id', params.id)
-						      .firstOrFail()
-						
 						/**Fetch comment accordly with user ID, comment ID passed as params and publication ID  **/
 						    const comment = await Comment.query()
 						      .where('user_id', user.id)
-						      .where('publication_id',publication.id)
-						      .where('id', params.id)
+						      .where('publication_id',params.idPublication)
+						      .where('id', params.idComment)
 						      .firstOrFail()
 
 						/** Update with new information **/
@@ -252,27 +246,23 @@
 					try {
 						/** Get logged in user **/
 						const user = auth.current.user
-				/** Fetch publication ID accordly user ID and ID passed as params **/			
-							const publication = await Publication.query()
-							      .where('user_id', user.id)
-							      .where('id', params.id)
-							      .firstOrFail()
+			
 							
-						/**Fetch comment accordly with user ID, comment ID passed as params and publication ID  **/
+						/**Fetch comment accordly with user ID, comment ID passed as params and publication ID passed as params  **/
 							    const comment = await Comment.query()
 							      .where('user_id', user.id)
-							      .where('publication_id',publication.id)
-							      .where('id', params.id)
+							      .where('publication_id',params.idPublication)
+							      .where('id', params.idComment)
 							      .firstOrFail()
-						return response.json({
-					    status: 'success',
-					    data: comment
-						})
+							    return response.json({
+							    status: 'success',
+							    data: comment
+								})
 				    } catch (error) {
-						return response.status(404).json({
-						    status: 'error',
-						    message: 'Comment not found.'
-						})
+							   return response.status(404).json({
+								    status: 'error',
+								    message: 'Comment not found.'
+								})
 				    }
 				}
 
@@ -290,20 +280,15 @@
 				   */
 				async deleteCommentPublication ({ request, auth, params, response }) {
 					    try {
-							/** Get logge in user **/
+							/** Get logged in user **/
 							const user = auth.current.user
 
-					/** Fetch publication ID accordly user ID and ID passed as params **/			
-								const publication = await Publication.query()
-								      .where('user_id', user.id)
-								      .where('id', params.id)
-								      .firstOrFail()
-								
-							/**Fetch comment accordly with user ID, comment ID passed as params and publication ID  **/
+													
+							/**Fetch comment accordly with user ID, comment ID passed as params and publication ID passed as params  **/
 								    const comment = await Comment.query()
 								      .where('user_id', user.id)
-								      .where('publication_id',publication.id)
-								      .where('id', params.id)
+								      .where('publication_id',params.idPublication)
+								      .where('id', params.idComment)
 								      .firstOrFail()
 							await comment.delete()
 
@@ -340,13 +325,13 @@
 
 						/** Gets the user ID that will have your publication commented as the ID of that publication **/
 							const otherUserID = await Publication.query()
-										     .where('id',params.id)
+										     .where('id',params.idPublication)
 										     .firstOrFail()
 
 							
 						    const publication = await Publication.query()
 										     .where('user_id',otherUserID.user_id)
-						    				     .where('id',params.id)
+						    				     .where('id',params.idPublication)
 										     .firstOrFail()
 
 							/** Persist in database **/
@@ -359,9 +344,9 @@
 						           await comment.load('user')
 							
 							return response.json({
-							status: 'success',
-							message: 'Comment registered!',
-							data: comment
+								status: 'success',
+								message: 'Comment registered!',
+								data: comment
 						       })
 
 					    } catch (error) {
@@ -393,24 +378,16 @@
 							/** Get the current logged user **/
 							const user = auth.current.user
 							
-							/** fetch the comment id according to the logged in user id and the publication id passed as params   **/
-							    const publicationComment = await Comment.query()
-							      .where('user_id', user.id)
-							      .where('publication_id',params.id)
-							      .firstOrFail()
-
+						
 			/** fetch the comment id according to the logged in user id , the publication id passed as params and the const publicationComment id   **/
 							    const comment = await Comment.query()
 							      .where('user_id', user.id)
-							      .where('publication_id',params.id)
-							      .where('id', publicationComment.id)
+							      .where('publication_id',params.idPublication)
+							      .where('id', params.idComment)
 							      .firstOrFail()
-
-
-							/** Update comment with new information **/
+			                         /** Update comment with new information **/
 							
 							comment.comment = request.input('comment')
-							
 							await comment.save()
 							await comment.load('user')
 							return response.json({
@@ -450,13 +427,13 @@
 			/** Fetch the comment id according to the logged in user id and the publication id passed as params   **/
 							    const publicationComment = await Comment.query()
 							      .where('user_id', user.id)
-							      .where('publication_id',params.id)
+							      .where('publication_id',params.idPublication)
 							      .firstOrFail()
 
 			/** Fetch the comment id according to the logged in user id , the publication id passed as params and the const publicationComment id   **/
 							    const comment = await Comment.query()
 							      .where('user_id', user.id)
-							      .where('publication_id',params.id)
+							      .where('publication_id',params.idPublication)
 							      .where('id', publicationComment.id)
 							      .firstOrFail()
 
@@ -493,13 +470,13 @@
 			/** Fetch the comment id according to the logged in user id and the publication id passed as params   **/
 							    const publicationComment = await Comment.query()
 							      .where('user_id', user.id)
-							      .where('publication_id',params.id)
+							      .where('publication_id',params.idPublication)
 							      .firstOrFail()
 
 			/** Fetch the comment id according to the logged in user id , the publication id passed as params and the const publicationComment id   **/
 							    const comment = await Comment.query()
 							      .where('user_id', user.id)
-							      .where('publication_id',params.id)
+							      .where('publication_id',params.idPublication)
 							      .where('id', publicationComment.id)
 							      .firstOrFail()
 							

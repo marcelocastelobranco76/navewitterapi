@@ -19,19 +19,19 @@ const Route = use('Route')
 
 
 /** Route to user sign up **/
-Route.post('/signup', 'UserController.signUp') 
+Route.post('/users', 'UserController.signUp') 
 
 /** Route to user log in  **/
-Route.post('/login', 'UserController.logIn')
+Route.post('/user', 'UserController.logIn')
 
 /** Routes to user account **/
 Route.group(() => {
 
   Route.get('/myaccount', 'UserController.userAccount') 
 
-  Route.put('/editaccount', 'UserController.editAccount') 
+  Route.put('/myaccount', 'UserController.editAccount') 
 
-  Route.delete('/delete', 'UserController.deleteAccount') 
+  Route.delete('/myaccount', 'UserController.deleteAccount') 
 
 })
   .prefix('account')
@@ -53,37 +53,37 @@ Route.get(':username', 'UserController.userProfile')
 
 /** Routes for users create, edit, view and delete theirs own publications **/
 
-Route.post('/publication/create', 'PublicationController.createPublication').middleware(['auth:jwt'])
+Route.post('/publications', 'PublicationController.createPublication').middleware(['auth:jwt'])
 
-Route.put('/publication/edit/:id', 'PublicationController.editPublication').middleware(['auth:jwt'])
+Route.put('/publication/:id', 'PublicationController.editPublication').middleware(['auth:jwt'])
 
-Route.get('/publication/view/:id', 'PublicationController.viewPublication').middleware(['auth:jwt']) 
+Route.get('/publication/:id', 'PublicationController.viewPublication').middleware(['auth:jwt']) 
 
-Route.delete('/publication/delete/:id', 'PublicationController.deletePublication').middleware(['auth:jwt'])
+Route.delete('/publication/:id', 'PublicationController.deletePublication').middleware(['auth:jwt'])
 
 
 
 /** Routes for users to create, edit, view and delete comments in their own publications **/
 
-Route.post('/publication/createcomment/:id', 'PublicationController.createCommentPublication').middleware([
+Route.post('/publications/:id/comments', 'PublicationController.createCommentPublication').middleware([
   'auth:jwt'
 ]) 
 
-Route.put('/publication/editcomment/:id', 'PublicationController.editCommentPublication').middleware(['auth:jwt']) 
+Route.put('/publications/:idPublication/comments/:idComment', 'PublicationController.editCommentPublication').middleware(['auth:jwt']) 
 
-Route.get('/publication/viewcomment/:id', 'PublicationController.viewCommentPublication').middleware(['auth:jwt'])
+Route.get('/publications/:idPublication/comments/:idComment', 'PublicationController.viewCommentPublication').middleware(['auth:jwt'])
 
-Route.delete('/publication/deletecomment/:id', 'PublicationController.deleteCommentPublication').middleware(['auth:jwt'])
+Route.delete('/publications/:idPublication/comments/:idComment', 'PublicationController.deleteCommentPublication').middleware(['auth:jwt'])
 
 
 /** Routes for users to Create, Edit, View, and Delete Comments on Other Users Publications **/
 
-Route.post('/user/register/publicationcomment/:id', 'PublicationController.userRegisterPublicationComment').middleware(['auth:jwt'])
+Route.post('/users/publications/:idPublication/comments', 'PublicationController.userRegisterPublicationComment').middleware(['auth:jwt'])
 
-Route.put('/user/edit/publicationcomment/:id', 'PublicationController.userEditPublicationComment').middleware(['auth:jwt'])
+Route.put('/users/publications/:idPublication/comments/:idComment', 'PublicationController.userEditPublicationComment').middleware(['auth:jwt'])
 
-Route.get('/user/view/publicationcomment/:id', 'PublicationController.userViewPublicationComment').middleware(['auth:jwt'])
+Route.get('/users/publications/:idPublication/comments/:idComment', 'PublicationController.userViewPublicationComment').middleware(['auth:jwt'])
 
-Route.delete('/user/delete/publicationcomment/:id', 'PublicationController.userDeletePublicationComment').middleware(['auth:jwt'])
+Route.delete('/users/publications/:idPublication/comments/:idComment', 'PublicationController.userDeletePublicationComment').middleware(['auth:jwt'])
 
 
