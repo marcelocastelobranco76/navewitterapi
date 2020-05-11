@@ -8,7 +8,7 @@ A product similar to Twitter to perform the following operations:
     The user can create, delete, edit and view their comments on other users posts.
     The user can view the listing of all posts by all users, sorted by date.
 
-To develop this API i used adonis-box (https://github.com/TDodgeCo/adonis-box), wich has :
+To develop this API i used adonis-box (https://github.com/TDodgeCo/adonis-box), which has :
 
 
     Ubuntu 16.04
